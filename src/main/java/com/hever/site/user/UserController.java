@@ -24,6 +24,7 @@ public class UserController {
     }
 
     //register endpoint
+    //endpoint de registro
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request){
         AuthResponse response = userService.register(request);
@@ -31,6 +32,7 @@ public class UserController {
     }
 
     // login endpoint
+    //endpoint de login
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request){
         AuthResponse response = userService.login(request);

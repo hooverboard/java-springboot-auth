@@ -22,37 +22,45 @@ public class UserService {
     }
 
     // register
+    // registrar
     public AuthResponse register(RegisterRequest request) {
 
         //check if user already exists
+        //verificar se o usuário já existe
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email is already taken");
         }
 
         // create user entity
+        // criar entidade de usuário
         UserEntity user = new UserEntity();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // save user to database
+        // salvar usuário no banco de dados
         UserEntity saved = userRepository.save(user);
 
         return new AuthResponse(saved, "User registered successfully");
     }
 
     // login
+    // login
     public AuthResponse login(LoginRequest request){
 
         Optional<UserEntity> opt = userRepository.findByEmail(request.getEmail());
 
         //check if user exists
+        //verificar se o usuário existe
         if (opt.isEmpty()){
             throw new RuntimeException("Invalid email");
         }
 
         UserEntity user = opt.get();
 
+        //check if password matches
+        //verificar se a senha corresponde
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new RuntimeException("invalid password");
         }
